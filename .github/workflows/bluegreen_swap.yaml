@@ -3,9 +3,6 @@ name: Swap index.html with index_v2.html
 
 # Trigger the workflow manually or on push to the main branch
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -26,7 +23,6 @@ jobs:
             mv index_v2.html index.html
             echo "Swapped index.html with index_v2.html successfully."
             mv index_old.html index_v2.html
-            rm index_old.html
           else
             echo "One or both files are missing in the docs directory."
             exit 1
