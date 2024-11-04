@@ -1,0 +1,41 @@
+# .github/workflows/swap-index-files.yml
+name: Swap index.html with index_v2.html
+
+# Trigger the workflow manually or on push to the main branch
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  swap-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Swap index.html with index_v2.html
+        run: |
+          # Check if both files exist
+          if [ -f "index.html" ] && [ -f "index_v2.html" ]; then
+            # Rename index.html to index_old.html
+            mv index.html index_old.html
+            # Rename index_v2.html to index.html
+            mv index_v2.html index.html
+            echo "Swapped index.html with index_v2.html successfully."
+          else
+            echo "One or both files are missing in the docs directory."
+            exit 1
+          fi
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html index_old.html
+          git commit -m "Swap index.html with index_v2.html"
+          git push
