@@ -1,4 +1,4 @@
-# DevOps Study Hub
+# My Updated Project Title
 
 
             Embark on a journey to master the art of continuous integration 
