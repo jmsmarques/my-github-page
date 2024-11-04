@@ -25,6 +25,8 @@ jobs:
             # Rename index_v2.html to index.html
             mv index_v2.html index.html
             echo "Swapped index.html with index_v2.html successfully."
+            mv index_old.html index_v2.html
+            rm index_old.html
           else
             echo "One or both files are missing in the docs directory."
             exit 1
