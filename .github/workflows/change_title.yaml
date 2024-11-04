@@ -10,6 +10,11 @@ on:
         required: true
         default: "My Updated Project Title"
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   update-title:
     runs-on: ubuntu-latest
@@ -24,13 +29,15 @@ jobs:
           newTitle="${{ github.event.inputs.newTitle }}"
 
           # Use sed to replace the title in index.html
-          sed -i 's|<title>.*</title>|<title>'"$newTitle"'</title>|' docs/index.html
+          sed -i 's|<title>.*</title>|<title>'"$newTitle"'</title>|' index.html
 
           # Verify the change
           echo "Updated title to: $newTitle"
-          cat docs/index.html
+          cat index.html
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
